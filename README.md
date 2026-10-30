@@ -12,7 +12,8 @@
 2. [产品需求](docs/product-requirements.md) — 五频道只读范围
 3. [架构与 API](docs/architecture.md) — 公开接口和安全约束
 4. [开发进度](docs/status.md) — 已验证与待验证
-5. [协作流程](docs/workflow.md)
+5. [换电脑预览检查清单](docs/wechat-devtools-preview.md)
+6. [协作流程](docs/workflow.md)
 
 历史 `docs/full-parity-plan.md`、`docs/launch-plan.md` 已不适用于当前版本。
 
