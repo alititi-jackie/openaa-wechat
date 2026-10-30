@@ -1,0 +1,4 @@
+.category-bar { white-space: nowrap; display: flex; margin-bottom: 22rpx; }
+.pill { display: inline-block; flex-shrink: 0; background: white; padding: 16rpx 24rpx; border-radius: 30rpx; margin-right: 12rpx; font-size: 25rpx; }
+.active { background: #1565c0; color: white; }
+.status { text-align: center; padding: 22rpx 0; }

@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="card">
+    <view class="section-title">🌡️ 华氏度转换摄氏度</view>
+    <input type="digit" placeholder="输入华氏度 °F" value="{{fahrenheit}}" bindinput="onF" class="field" />
+    <view class="result">{{celsius === '' ? '—' : celsius + ' °C'}}</view>
+  </view>
+  <view class="card">
+    <view class="section-title">🚗 英里转换公里</view>
+    <input type="digit" placeholder="输入英里 mi" value="{{miles}}" bindinput="onM" class="field" />
+    <view class="result">{{kilometers === '' ? '—' : kilometers + ' km'}}</view>
+  </view>
+  <view class="card muted">DMV 题库、挪车码等工具将在下一阶段接入。</view>
+</view>

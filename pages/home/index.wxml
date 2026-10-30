@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="hero card">
+    <view class="brand">OpenAA</view>
+    <view class="hero-title">美国华人生活平台</view>
+    <view class="hero-sub">找工作 · 找房子 · 生活工具</view>
+  </view>
+  <view class="card">
+    <view class="section-title">生活分类</view>
+    <view class="grid">
+      <view class="entry" wx:for="{{channels}}" wx:key="key" data-key="{{item.key}}" bindtap="openChannel">
+        <view class="emoji">{{item.emoji}}</view><view>{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="card">
+    <view class="row"><view class="section-title">最新招聘</view><view class="muted" data-key="jobs" bindtap="openChannel">更多 ›</view></view>
+    <view wx:if="{{loading}}" class="muted">正在加载...</view>
+    <view wx:elif="{{error}}" class="muted">暂时无法读取招聘信息：{{error}}</view>
+    <view wx:elif="{{!latest.length}}" class="muted">暂无招聘信息，或接口字段需要适配</view>
+    <view class="item" wx:for="{{latest}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
+      <view class="item-title">{{item.title}}</view><view class="muted">{{item.subtitle}}</view>
+    </view>
+  </view>
+  <view class="muted footer">信息来源：OpenAA 主站 · 使用前请核实发布内容</view>
+</view>

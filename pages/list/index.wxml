@@ -1,0 +1,14 @@
+<view class="container">
+  <scroll-view scroll-x class="category-bar" enable-flex>
+    <view class="pill {{active===item.key?'active':''}}" wx:for="{{channels}}" wx:key="key" data-key="{{item.key}}" bindtap="choose">{{item.label}}</view>
+  </scroll-view>
+  <view class="card">
+    <view class="item" wx:for="{{items}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
+      <view class="item-title">{{item.title}}</view><view class="muted">{{item.subtitle}}</view>
+    </view>
+    <view wx:if="{{loading}}" class="muted status">加载中...</view>
+    <view wx:if="{{error}}" class="muted status">加载失败：{{error}} <text bindtap="load">点击重试</text></view>
+    <view wx:if="{{!loading && !error && !items.length}}" class="muted status">暂无信息</view>
+    <view wx:if="{{finished && items.length}}" class="muted status">已经到底了</view>
+  </view>
+</view>

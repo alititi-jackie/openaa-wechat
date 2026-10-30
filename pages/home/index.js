@@ -1,0 +1,24 @@
+const { CHANNELS } = require('../../config');
+const { fetchChannel } = require('../../utils/api');
+Page({
+  data: { channels: CHANNELS, latest: [], loading: true, error: '' },
+  onLoad() { this.loadLatest(); },
+  onPullDownRefresh() { this.loadLatest().finally(() => wx.stopPullDownRefresh()); },
+  loadLatest() {
+    this.setData({ loading: true, error: '' });
+    return fetchChannel('jobs', 1).then(rows => {
+      this.setData({ latest: rows.slice(0, 5), loading: false });
+    }).catch(err => this.setData({ error: err.message, loading: false }));
+  },
+  openChannel(e) {
+    const key = e.currentTarget.dataset.key;
+    wx.setStorageSync('openaa_channel', key);
+    wx.switchTab({ url: '/pages/list/index' });
+  },
+  openDetail(e) {
+    const item = this.data.latest[e.currentTarget.dataset.index];
+    wx.setStorageSync('openaa_detail', item);
+    wx.navigateTo({ url: '/pages/detail/index' });
+  },
+  onShareAppMessage() { return { title: 'OpenAA 美国华人生活平台', path: '/pages/home/index' }; }
+});

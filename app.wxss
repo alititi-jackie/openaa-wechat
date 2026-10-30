@@ -1,0 +1,11 @@
+page { background: #f5f7fb; color: #172033; font-size: 28rpx; }
+.container { padding: 28rpx; }
+.card { background: #fff; border-radius: 22rpx; padding: 28rpx; margin-bottom: 22rpx; }
+.title { font-weight: 700; font-size: 36rpx; }
+.muted { color: #667085; font-size: 24rpx; }
+.section-title { font-size: 31rpx; font-weight: 700; margin-bottom: 18rpx; }
+.btn { background: #1565c0; color: #fff; border-radius: 14rpx; font-size: 28rpx; }
+.item { padding: 22rpx 0; border-bottom: 1rpx solid #eef0f4; }
+.item:last-child { border-bottom: 0; }
+.item-title { font-weight: 600; line-height: 1.5; }
+.row { display: flex; justify-content: space-between; align-items: center; }
