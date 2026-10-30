@@ -12,9 +12,6 @@ module.exports = {
     {key:'housing',label:'房屋租售',emoji:'🏠',type:'channel'},
     {key:'secondhand',label:'二手交易',emoji:'🛍️',type:'channel'},
     {key:'services',label:'本地服务',emoji:'🔧',type:'channel'},
-    {key:'news',label:'新闻资讯',emoji:'📰',type:'page'},
-    {key:'navigation',label:'华人导航',emoji:'🧭',type:'page'},
-    {key:'dmv',label:'DMV驾考',emoji:'🚘',type:'page'},
-    {key:'publish',label:'我要发布',emoji:'✍️',type:'tab'}
+    {key:'news',label:'新闻资讯',emoji:'📰',type:'page'}
   ]
 };
