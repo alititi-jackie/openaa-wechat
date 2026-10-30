@@ -14,7 +14,12 @@
   </view>
   <view class="card">
     <view class="section-title">在美国生活 · 从 OpenAA 开始</view>
-    <view class="muted">寻找工作、房屋及本地服务，浏览生活资讯与驾考内容。小程序和 OpenAA 主站将共用信息数据。</view>
+    <view class="muted">浏览新闻、招聘、房屋、二手及本地服务。小程序仅供查看，信息与 OpenAA.com 主站同步。</view>
+  </view>
+  <view class="card">
+    <view class="section-title">需要发布信息？</view>
+    <view class="muted">发布、编辑或管理信息请前往 OpenAA.com 网页版。</view>
+    <button type="primary" style="margin-top:20rpx" bindtap="promptWebPublish">前往网页版发布</button>
   </view>
   <view class="card">
     <view class="row"><view class="section-title">最新招聘</view><view class="muted" data-key="jobs" bindtap="openChannel">更多 ›</view></view>
