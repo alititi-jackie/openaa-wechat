@@ -1,0 +1,3 @@
+.news-categories {white-space:nowrap;margin-bottom:22rpx;}
+.news-pill {display:inline-block;padding:16rpx 24rpx;margin-right:12rpx;background:white;border-radius:30rpx;font-size:25rpx;}
+.news-pill.chosen {background:#1565c0;color:white;}
