@@ -1,49 +1,7 @@
 <view class="container">
-  <view class="hero card">
-    <view class="brand">OpenAA</view>
-    <view class="hero-title">美国华人生活平台</view>
-    <view class="hero-sub">找工作 · 找房子 · 华人生活</view>
-  </view>
-  <view class="card">
-    <view class="section-title">生活分类</view>
-    <view class="grid">
-      <view class="entry" wx:for="{{quickLinks}}" wx:key="key" data-key="{{item.key}}" data-type="{{item.type}}" bindtap="openShortcut">
-        <view class="emoji">{{item.emoji}}</view><view>{{item.label}}</view>
-      </view>
-    </view>
-  </view>
-  <view class="card">
-    <view class="section-title">在美国生活 · 从 OpenAA 开始</view>
-    <view class="muted">浏览新闻、招聘、房屋、二手及本地服务。小程序仅供查看，信息与 OpenAA.com 主站同步。</view>
-  </view>
-  <view class="card">
-    <view class="section-title">需要发布信息？</view>
-    <view class="web-publish-note">发布、编辑或管理信息请前往 OpenAA.com 网页版。</view>
-    <button class="primary-cta" bindtap="promptWebPublish">前往网页版发布</button>
-  </view>
-  <view class="card">
-    <view class="row"><view class="section-title">最新招聘</view><view class="muted" data-key="jobs" bindtap="openChannel">更多 ›</view></view>
-    <view wx:if="{{loading}}" class="muted">正在加载...</view>
-    <view wx:elif="{{error}}" class="muted">暂时无法读取招聘信息：{{error}} <text bindtap="loadLatest">点击重试</text></view>
-    <view wx:elif="{{!latest.length}}" class="muted">暂无招聘信息</view>
-    <view class="item" wx:for="{{latest}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
-      <view class="post-card-row"><view class="post-card-content">
-        <view class="item-title">{{item.title}}</view><view class="muted post-meta">{{item.subtitle}}</view>
-        <view wx:if="{{item.priceDisplay}}" class="post-price">{{item.priceDisplay}}</view>
-      </view><image wx:if="{{item.imageUrl}}" class="post-thumb" src="{{item.imageUrl}}" mode="aspectFill" /></view>
-    </view>
-  </view>
-  <view class="card" wx:if="{{othersLoading}}"><view class="muted">正在同步其他生活信息...</view></view>
-  <view class="card" wx:for="{{otherSections}}" wx:for-item="section" wx:key="key">
-    <view class="row"><view class="section-title">最新{{section.label}}</view><view class="muted" data-key="{{section.key}}" bindtap="openChannel">更多 ›</view></view>
-    <view wx:if="{{section.error}}" class="muted">暂时无法读取：{{section.error}}</view>
-    <view wx:elif="{{!section.items.length}}" class="muted">暂无信息</view>
-    <view class="item" wx:for="{{section.items}}" wx:for-item="post" wx:for-index="postIndex" wx:key="id" data-key="{{section.key}}" data-index="{{postIndex}}" bindtap="openOtherDetail">
-      <view class="post-card-row"><view class="post-card-content">
-        <view class="item-title">{{post.title}}</view><view class="muted post-meta">{{post.subtitle}}</view>
-        <view wx:if="{{post.priceDisplay}}" class="post-price">{{post.priceDisplay}}</view>
-      </view><image wx:if="{{post.imageUrl}}" class="post-thumb" src="{{post.imageUrl}}" mode="aspectFill" /></view>
-    </view>
-  </view>
-  <view class="muted footer">信息来源：OpenAA 主站 · 使用前请核实发布内容</view>
+  <view class="hero"><view class="hero-label">OpenAA · 美国驾考</view><view class="hero-title">美国 DMV 中文驾照考试</view><view class="hero-desc">纽约州中文题库 · 模拟考试 · 交通标志</view><view class="hero-pill">当前地区：纽约州 NY</view></view>
+  <view class="card overview" bindtap="openBank"><view class="overview-title">纽约 DMV 中文题库</view><view class="muted">150 道学习题 · 免费练习 · 点击进入 →</view></view>
+  <view class="section-title">开始学习</view>
+  <view class="feature-grid"><view class="feature" wx:for="{{features}}" wx:key="mode" data-mode="{{item.mode}}" bindtap="openFeature"><view class="feature-icon">{{item.icon}}</view><view class="feature-title">{{item.title}}</view><view class="muted">{{item.desc}}</view></view></view>
+  <view class="card disclaimer">非纽约州 DMV 官方应用。题目仅供学习参考，考试内容及要求以 DMV 官方资料为准。</view>
 </view>
