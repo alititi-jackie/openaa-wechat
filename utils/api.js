@@ -119,15 +119,20 @@ function fetchNews(category = '') {
   return fetchMiniPublic('news', category ? {category} : {}).then(data => {
     if (!Array.isArray(data.categories) || !Array.isArray(data.posts)) throw new Error('新闻数据格式异常');
     return { categories: data.categories.map(c => ({slug:String(c.slug||''),name:String(c.name||'')})),
-      posts: data.posts.filter(p=>p&&p.slug&&p.title).map(p=>({slug:String(p.slug),title:String(p.title),excerpt:String(p.excerpt||''),categoryName:String(p.categoryName||''),isPinned:!!p.isPinned,publishedAt:p.publishedAt||''})) };
+      posts: data.posts.filter(p=>p&&p.slug&&p.title).map(p=>({slug:String(p.slug),title:String(p.title),excerpt:String(p.excerpt||''),categoryName:String(p.categoryName||''),isPinned:!!p.isPinned,publishedAt:displayDate(p.publishedAt)})) };
   });
+}
+
+function displayDate(value) {
+  const text = typeof value === 'string' ? value : '';
+  return /^\d{4}-\d{2}-\d{2}/.test(text) ? text.slice(0, 10) : '';
 }
 
 function fetchNewsDetail(slug) {
   if (!/^[a-z0-9][a-z0-9_-]{0,119}$/i.test(slug||'')) return Promise.reject(new Error('新闻链接无效'));
   return fetchMiniPublic('news',{slug}).then(p=>{
     if (p.slug!==slug || !p.title) throw new Error('新闻详情数据格式异常');
-    return {slug,title:String(p.title),body:String(p.body||''),excerpt:String(p.excerpt||''),categoryName:String(p.categoryName||''),publishedAt:p.publishedAt||'',coverImageUrl:p.coverImageUrl||''};
+    return {slug,title:String(p.title),body:String(p.body||''),excerpt:String(p.excerpt||''),categoryName:String(p.categoryName||''),publishedAt:displayDate(p.publishedAt),coverImageUrl:p.coverImageUrl||''};
   });
 }
 
