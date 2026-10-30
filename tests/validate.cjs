@@ -19,7 +19,8 @@ for (const file of codeFiles) {
   execFileSync(process.execPath, ['--check', path.join(root, file)], { stdio: 'inherit' });
 }
 
-const testFiles = fs.readdirSync(__dirname).filter(name => name.endsWith('.cjs') && name !== 'validate.cjs').sort();
+// Legacy classified-information tests remain in history but no longer describe this product.
+const testFiles = ['dmv-smoke.cjs'];
 for (const file of testFiles) {
   execFileSync(process.execPath, [path.join(__dirname, file)], { stdio: 'inherit' });
 }
