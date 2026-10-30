@@ -14,7 +14,7 @@
 - tests/：可执行模拟测试；必须补微信开发者工具编译/真机手工证据。
 
 ## API 接入原则
-1. 已核实四大列表使用统一 API `GET /api/posts?type=job|housing|marketplace|service&page=N&pageSize=10`，响应 `{state,data,pagination}`。旧的 `/api/jobs`、`/api/housing`、`/api/secondhand`、`/api/services` 不属于当前主站接口。新闻、导航、DMV、搜索、广告按实际实现继续核对。
+1. 已核实四大列表使用统一 API `GET /api/posts?type=job|housing|marketplace|service&page=N&pageSize=10`，响应 `{state,data,pagination}`。分页关键词搜索需要 `view=list&q=关键词`；不带 `view=list` 的 `q` 保留原有非分页搜索行为。筛选支持 `area,min,max,sort,page,pageSize`（价格过滤不适用于 service）。旧的 `/api/jobs`、`/api/housing`、`/api/secondhand`、`/api/services` 不属于当前主站接口。新闻、导航、DMV、搜索、广告按实际实现继续核对。
 2. 对每一接口形成契约表：URL/方法、参数、响应形状、分页边界、错误码、公开字段、审核状态过滤、缓存策略。
 3. 适配器将服务端 DTO 转为 UI ViewModel；不把原始敏感响应整对象缓存到本地。
 4. 使用稳定、可重放的详情路由 channel + id/slug，通过公开详情 API 获取内容。
