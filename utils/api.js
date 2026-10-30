@@ -9,13 +9,33 @@ function normalizeRows(body) {
   return body;
 }
 
-function fetchChannelPage(key, page = 1) {
+function normalizeFilters(input = {}, type) {
+  const value = {};
+  for (const key of ['q', 'area']) {
+    const clean = String(input[key] || '').trim().slice(0, 80);
+    if (clean) value[key] = clean;
+  }
+  const sort = String(input.sort || 'latest');
+  if (['latest', 'oldest', 'price_asc', 'price_desc'].includes(sort)) {
+    value.sort = type === 'service' && sort.startsWith('price_') ? 'latest' : sort;
+  }
+  if (type !== 'service') {
+    for (const key of ['min', 'max']) {
+      if (input[key] === '' || input[key] == null) continue;
+      const number = Number(input[key]);
+      if (Number.isFinite(number) && number >= 0) value[key] = number;
+    }
+  }
+  return value;
+}
+
+function fetchChannelPage(key, page = 1, filters = {}) {
   if (!POST_TYPES[key]) return Promise.reject(new Error('不支持的栏目'));
   if (!Number.isInteger(page) || page < 1) return Promise.reject(new Error('页码无效'));
   return new Promise((resolve, reject) => {
     wx.request({
       url: `${API_BASE}/api/posts`,
-      data: { type: POST_TYPES[key], page, pageSize: 10 },
+      data: { type: POST_TYPES[key], page, pageSize: 10, view: 'list', ...normalizeFilters(filters, POST_TYPES[key]) },
       timeout: 10000,
       success(response) {
         if (response.statusCode < 200 || response.statusCode >= 300) {
@@ -81,4 +101,4 @@ function fetchPostDetail(id, type) {
   }));
 }
 
-module.exports = { fetchChannel, fetchChannelPage, fetchPostDetail, detailPath, POST_TYPES };
+module.exports = { fetchChannel, fetchChannelPage, fetchPostDetail, detailPath, normalizeFilters, POST_TYPES };
