@@ -1,0 +1,10 @@
+<view class="container">
+  <view class="card muted" wx:if="{{loading}}">正在读取新闻...</view>
+  <view class="card muted" wx:if="{{error}}">{{error}} <text bindtap="loadArticle">点击重试</text></view>
+  <view class="card" wx:if="{{article}}">
+    <view class="title">{{article.title}}</view>
+    <view class="muted">{{article.categoryName}} · {{article.publishedAt}}</view>
+    <image wx:if="{{article.coverImageUrl}}" src="{{article.coverImageUrl}}" mode="widthFix" style="width:100%;margin-top:20rpx" />
+    <view class="news-body">{{article.body}}</view>
+  </view>
+</view>
