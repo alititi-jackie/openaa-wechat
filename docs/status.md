@@ -78,3 +78,9 @@
 - 详情图片统一圆角，新闻日期压缩为 YYYY-MM-DD 显示。
 - 新增 `tests/mobile-ui.cjs` 检查注册页面资源、只读范围、主要列表字段与样式；与现有模拟测试一并通过。
 - **重要：没有通过微信开发者工具 WXML/WXSS 编译及真机视觉检查；没有验证线上 API 真正可访问。** 这批属于代码与静态测试完成，不代表已上线。
+
+## 2026-10-30 云端检查与换电脑预览准备
+- 新增 `tests/validate.cjs`，自动解析注册页面 JSON、检查所需页面文件和 JavaScript 语法，执行 7 组模拟 wx 测试套件；在当前云环境通过。
+- 新增 GitHub Actions `.github/workflows/validate.yml`，目标是在 push/PR 后自动运行；截至本轮检查还未观察到 GitHub 侧成功运行记录，**不能声称 CI 已通过**。
+- 新增 `docs/wechat-devtools-preview.md`，明确使用最新 GitHub main ZIP、自己的 AppID、request 合法域名、失败截图和五频道只读验收清单。
+- 仍未在微信开发者工具真实编译、真机分享或确认 OpenAA 生产 API 可用；微信正式审核和个人主体资质也未验证。
