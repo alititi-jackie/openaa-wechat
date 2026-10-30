@@ -2,6 +2,27 @@
   <scroll-view scroll-x class="category-bar" enable-flex>
     <view class="pill {{active===item.key?'active':''}}" wx:for="{{channels}}" wx:key="key" data-key="{{item.key}}" bindtap="choose">{{item.label}}</view>
   </scroll-view>
+  <view class="card filter-card">
+    <view class="filter-row">
+      <input class="filter-input" placeholder="搜索职位、房屋或服务关键词" value="{{draft.q}}" bindinput="changeKeyword" confirm-type="search" bindconfirm="applyFilters" />
+      <button class="filter-button" size="mini" bindtap="applyFilters">搜索</button>
+      <text class="filter-toggle" bindtap="toggleFilters">筛选{{filtersOpen?'收起':'展开'}}</text>
+    </view>
+    <view wx:if="{{filtersOpen}}" class="filter-extra">
+      <input class="filter-input" placeholder="地区关键词，例如 Brooklyn" value="{{draft.area}}" bindinput="changeArea" />
+      <view class="filter-row" wx:if="{{active!=='services'}}">
+        <input class="filter-input" type="digit" placeholder="最低价格/薪资" value="{{draft.min}}" bindinput="changeMin" />
+        <input class="filter-input" type="digit" placeholder="最高价格/薪资" value="{{draft.max}}" bindinput="changeMax" />
+      </view>
+      <picker range="{{sortOptions}}" value="{{sortIndex}}" bindchange="changeSort">
+        <view class="sort-choice">排序：{{sortOptions[sortIndex]}} ▾</view>
+      </picker>
+      <view class="filter-row filter-actions">
+        <button size="mini" bindtap="resetFilters">清空条件</button>
+        <button type="primary" size="mini" bindtap="applyFilters">应用筛选</button>
+      </view>
+    </view>
+  </view>
   <view class="card">
     <view class="item" wx:for="{{items}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
       <view class="item-title">{{item.title}}</view><view class="muted">{{item.subtitle}}</view>
