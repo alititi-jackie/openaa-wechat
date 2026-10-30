@@ -1,0 +1,38 @@
+const assert = require('node:assert/strict');
+const { fetchPostDetail, detailPath } = require('../utils/api');
+const id = '123e4567-e89b-42d3-a456-426614174000';
+const requests = [];
+global.wx = { request: request => requests.push(request), stopPullDownRefresh() {} };
+
+(async () => {
+  assert.equal(detailPath({ id, type:'housing' }), `/pages/detail/index?id=${id}&type=housing`);
+  assert.equal(detailPath({ id, type:'other' }), '');
+  await assert.rejects(fetchPostDetail('bad-id','job'), /无效/);
+  const task = fetchPostDetail(id, 'job');
+  const request = requests.shift();
+  assert.equal(request.url, 'https://openaa.com/api/posts/detail');
+  assert.deepEqual(request.data, {id,type:'job'});
+  request.success({statusCode:200,data:{state:'ready',data:{id,type:'job',title:'招聘',body:'公开正文',contact:{phone:'private'},sourceRecord:{metadata:{secret:'private'}},images:[{url:'https://example.org/image.webp'}],detailMetaFields:[{label:'地区',value:'纽约'}]}}});
+  const detail = await task;
+  assert.equal(detail.description,'公开正文');
+  assert.equal(detail.images.length,1);
+  assert.equal(detail.fields.length,1);
+  assert.equal('contact' in detail,false);
+  assert.equal('sourceRecord' in detail,false);
+  const missing = fetchPostDetail(id,'job');
+  const rejected = assert.rejects(missing,/下架|不存在/);
+  requests.shift().success({statusCode:404,data:{state:'ready',data:null}});
+  await rejected;
+  let page;
+  global.Page = def => { page=def; };
+  delete require.cache[require.resolve('../pages/detail/index.js')];
+  require('../pages/detail/index.js');
+  page.data={...page.data};
+  page.setData=function(patch){Object.assign(this.data,patch);};
+  page.onLoad({id,type:'job'});
+  assert.equal(page.onShareAppMessage().path,detailPath({id,type:'job'}));
+  requests.shift().success({statusCode:200,data:{state:'ready',data:{id,type:'job',title:'可分享'}}});
+  await Promise.resolve();
+  assert.equal(page.onShareAppMessage().title,'可分享');
+  console.log('PASS detail cold load, URL sharing, 404, and sensitive field exclusion');
+})().catch(error=>{console.error(error);process.exitCode=1;});
