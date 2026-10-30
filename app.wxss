@@ -1,11 +1,20 @@
 page { background: #f5f7fb; color: #172033; font-size: 28rpx; }
-.container { padding: 28rpx; }
-.card { background: #fff; border-radius: 22rpx; padding: 28rpx; margin-bottom: 22rpx; }
+.container { padding: 24rpx 24rpx 40rpx; }
+.card { background: #fff; border-radius: 22rpx; padding: 28rpx; margin-bottom: 20rpx; box-sizing: border-box; }
 .title { font-weight: 700; font-size: 36rpx; }
 .muted { color: #667085; font-size: 24rpx; }
 .section-title { font-size: 31rpx; font-weight: 700; margin-bottom: 18rpx; }
 .btn { background: #1565c0; color: #fff; border-radius: 14rpx; font-size: 28rpx; }
-.item { padding: 22rpx 0; border-bottom: 1rpx solid #eef0f4; }
+.item { padding: 24rpx 0; border-bottom: 1rpx solid #eef0f4; }
 .item:last-child { border-bottom: 0; }
 .item-title { font-weight: 600; line-height: 1.5; }
+.post-card-row { display: flex; align-items: flex-start; gap: 18rpx; }
+.post-card-content { flex: 1; min-width: 0; }
+.post-thumb { width: 136rpx; height: 112rpx; flex-shrink: 0; border-radius: 12rpx; background: #eef2f7; }
+.post-meta { margin-top: 8rpx; line-height: 1.5; }
+.post-price { color: #c35d1b; font-weight: 700; font-size: 27rpx; margin-top: 10rpx; }
+.read-more { color: #1565c0; font-size: 24rpx; margin-top: 10rpx; }
+.web-publish-note { color: #667085; font-size: 25rpx; line-height: 1.6; }
+.primary-cta { margin-top: 18rpx; background: #1565c0; color: white; border-radius: 16rpx; font-size: 28rpx; }
+.retry { color: #1565c0; font-weight: 600; }
 .row { display: flex; justify-content: space-between; align-items: center; }
