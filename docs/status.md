@@ -81,6 +81,6 @@
 
 ## 2026-10-30 云端检查与换电脑预览准备
 - 新增 `tests/validate.cjs`，自动解析注册页面 JSON、检查所需页面文件和 JavaScript 语法，执行 7 组模拟 wx 测试套件；在当前云环境通过。
-- 新增 GitHub Actions `.github/workflows/validate.yml`，目标是在 push/PR 后自动运行；截至本轮检查还未观察到 GitHub 侧成功运行记录，**不能声称 CI 已通过**。
+- 新增 GitHub Actions `.github/workflows/validate.yml`，目标是在 push/PR 后自动运行；已观察到 GitHub Actions 运行 `41067773292` 状态为 completed/success；后续提交对应的运行仍需逐次确认，成功的模拟 CI 不等于微信编译。
 - 新增 `docs/wechat-devtools-preview.md`，明确使用最新 GitHub main ZIP、自己的 AppID、request 合法域名、失败截图和五频道只读验收清单。
 - 仍未在微信开发者工具真实编译、真机分享或确认 OpenAA 生产 API 可用；微信正式审核和个人主体资质也未验证。
