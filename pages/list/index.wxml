@@ -32,4 +32,9 @@
     <view wx:if="{{!loading && !error && !items.length}}" class="muted status">暂无信息</view>
     <view wx:if="{{finished && items.length}}" class="muted status">已经到底了</view>
   </view>
+  <view class="card">
+    <view class="section-title">想发布信息？</view>
+    <view class="muted">小程序只提供查看。前往 OpenAA.com 网页版登录后发布。</view>
+    <button type="primary" style="margin-top:16rpx" bindtap="promptWebPublish">复制网页版发布网址</button>
+  </view>
 </view>
