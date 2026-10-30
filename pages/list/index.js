@@ -3,7 +3,7 @@ const { fetchChannelPage, detailPath } = require('../../utils/api');
 const { promptWebPublish } = require('../../utils/web-publish');
 Page({
   data: {
-    channels: CHANNELS, active: 'jobs', items: [], page: 1, loading: false, finished: false, error: '',
+    channels: CHANNELS, active: 'jobs', activeLabel: '招聘求职', items: [], page: 1, loading: false, finished: false, error: '',
     draft: { q: '', area: '', min: '', max: '' }, applied: {},
     sortIndex: 0, sortOptions: ['最新优先', '最早发布', '价格/薪资低到高', '价格/薪资高到低'],
     filtersOpen: false
@@ -19,7 +19,8 @@ Page({
     if (key !== this.data.active) this.setData({ draft: { q: '', area: '', min: '', max: '' }, applied: {}, sortIndex: 0,
       sortOptions: key === 'services' ? ['最新优先', '最早发布'] : ['最新优先', '最早发布', '价格/薪资低到高', '价格/薪资高到低'] });
     this._generation = (this._generation || 0) + 1;
-    this.setData({ active: key, items: [], page: 1, loading: false, finished: false, error: '' });
+    const current = CHANNELS.find(channel => channel.key === key);
+    this.setData({ active: key, activeLabel: current.label, items: [], page: 1, loading: false, finished: false, error: '' });
     return this.load();
   },
   choose(e) { this.select(e.currentTarget.dataset.key); },
