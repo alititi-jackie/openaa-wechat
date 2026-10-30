@@ -1,47 +1,26 @@
-# OpenAA 微信小程序架构与 API 契约规则
+# OpenAA 微信小程序五频道只读架构
 
-## 架构
-微信原生小程序客户端 -> OpenAA 受控 HTTPS API（Next.js 服务端） -> Supabase（唯一数据库、Storage、RLS/Service Role 仅服务端）。
+## 基本架构
+微信原生小程序（只读 UI） → OpenAA.com Next.js 公开 HTTPS API → 主站 Supabase。唯一数据源由主站管理，微信客户端没有数据库凭证，也没有账户写入权限。
 
-业务数据、管理后台、审核状态、用户账户由主站统一管理。小程序只提供新的客户端呈现与微信身份入口。小程序仓库不保存后台凭据。
+## 页面与导航
+- app.json 注册：home、list、news、news-detail、detail。
+- TabBar：home / list。首页五个快捷入口：news、jobs、housing、secondhand、services。
+- `pages/publish`、`pages/profile`、`pages/navigation`、`pages/dmv`、`pages/tools` 旧文件不注册、不展示。
+- 网页发布 `utils/web-publish.js`：弹窗→复制 `https://openaa.com`；不使用 web-view，也不实现微信身份认证。
 
-## 目录约定
-- app.json/app.wxss：全局页面注册、Tab 与全局样式。
-- config.js：非秘密配置、频道映射；API 主域名应统一管理。
-- pages/：页面模块，一业务一组；通用组件后续可放 components/。
-- utils/api.js：网络请求与 DTO 解析；建议后续拆为 api/client、api/channels、api/auth。
-- docs/：产品、架构、交付和进度说明。
-- tests/：可执行模拟测试；必须补微信开发者工具编译/真机手工证据。
+## 已核实的主站公开接口
+- `GET /api/posts?type=job|housing|marketplace|service&page=N&pageSize=10&view=list`：四类公开列表；有 `{state,data,pagination}`。
+- 筛选：`q,area,min,max,sort`。服务频道不支持价格区间。
+- `GET /api/posts/detail?id=<uuid>&type=...`：公开详情精简 DTO，服务端按 published/public/未过期过滤，省略 sourceRecord 和 contact。
+- `GET /api/mini/news`：新闻分类及最新 50 条；`category=<slug>` 过滤。
+- `GET /api/mini/news?slug=<slug>`：文章正文详情；404 不显示下架内容。
+- 公开链接不含用户私有资料；小程序由 `utils/api.js` 进行字段映射和错误处理。
 
-## API 接入原则
-1. 已核实四大列表使用统一 API `GET /api/posts?type=job|housing|marketplace|service&page=N&pageSize=10`，响应 `{state,data,pagination}`。分页关键词搜索需要 `view=list&q=关键词`；不带 `view=list` 的 `q` 保留原有非分页搜索行为。筛选支持 `area,min,max,sort,page,pageSize`（价格过滤不适用于 service）。旧的 `/api/jobs`、`/api/housing`、`/api/secondhand`、`/api/services` 不属于当前主站接口。新闻、导航、DMV、搜索、广告按实际实现继续核对。
-2. 对每一接口形成契约表：URL/方法、参数、响应形状、分页边界、错误码、公开字段、审核状态过滤、缓存策略。
-3. 适配器将服务端 DTO 转为 UI ViewModel；不把原始敏感响应整对象缓存到本地。
-4. 使用稳定、可重放的详情路由 channel + id/slug，通过公开详情 API 获取内容。
-5. 所有数据访问走统一请求层，含超时、错误提示、必要的身份头，避免重复发请求和旧响应覆盖。
-6. request 域名需在微信后台配置并满足 HTTPS；开发者工具的跳过校验仅用于本地调试。
-7. 真实 API 不通时展示错误/占位，不能把模拟数据说成生产同步成功。
-
-## 账号与发布
-- wx.login 获取短期 code，发送至服务端；服务端交换 openid/unionid（如可用），绝不在客户端换取或保存 AppSecret。
-- 账号绑定需要验证现有 OpenAA 账号控制权；处理重复绑定、解绑、撤销与会话失效。
-- 发布、编辑、图片上传必须经过现有服务端校验、频率限制、内容审核和账户 active/restricted/banned 状态。
-- 不能直接从小程序使用 Supabase Service Role 或写库绕过主站 API。
-
-## 详情与分享
-- 分享路径只包含最少必要的公开标识，不含联系方式、令牌或隐私信息。
-- 冷启动查询新鲜内容；404/下架/删除/封禁必须按服务端返回展示统一状态。
-- 联系方式等敏感字段在 API 级别限定公开范围。
-
-## 质量与发布
-- 每次代码修改运行语法、JSON/页面存在性和相关回归测试。
-- 真实 WXML/WXSS、微信基础库、iOS/Android 与真机分享需通过微信开发者工具/真机验证。
-- GitHub 合并 ≠ 自动微信发布；记录版本 SHA、微信上传版本号、审核状态。
-- 开发预览与正式上线隔离；当前阶段不处理备案，但上线前必须核实主体、类目、隐私、备案和审核要求。
-
-## 已核实内容接口（2026-10-30）
-- `GET /api/mini/news`：新闻类别与最多 50 篇已发布文章；可加 `category=<slug>`。
-- `GET /api/mini/news?slug=<slug>`：公开新闻详情；404 代表不存在或已下架。微信分享使用 `/pages/news-detail/index?slug=...` 冷启动请求。
-- `GET /api/mini/navigation`：公开启用类别与链接。小程序不执行任意外链跳转，现阶段提供复制网址。
-- 主站代码路径 `app/api/mini/news/route.ts` 与 `app/api/mini/navigation/route.ts`；均不返回后台审核、个人导航或原始 metadata。
-- 小程序使用 `utils/api.js` 中的 `fetchNews`、`fetchNewsDetail`、`fetchNavigation` 适配响应；线上请求/微信域名/真机尚待验证。
+## 安全、审核与验证
+- 禁止 Service Role、AppSecret 或私密个人数据进入小程序代码。
+- 对外分享只含 ID/slug；接收方冷启动重新请求，不依赖原手机缓存。
+- 请求合法域名配置必须与微信后台一致，全部走 HTTPS。
+- 微信个人主体不能以 web-view 实现任意网站跳转；用户复制域名自行访问。
+- 仅源码/模拟 wx 测试不意味着真实 API、微信编译、真机或正式审核通过；新闻、招聘、房地产及分类信息可能超出个人主体类目。
+- 历史的全功能规划仅供背景，不作为当前开发目标。
