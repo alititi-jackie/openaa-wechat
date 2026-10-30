@@ -2,7 +2,7 @@
   <view class="hero card">
     <view class="brand">OpenAA</view>
     <view class="hero-title">美国华人生活平台</view>
-    <view class="hero-sub">找工作 · 找房子 · 生活工具</view>
+    <view class="hero-sub">找工作 · 找房子 · 华人生活</view>
   </view>
   <view class="card">
     <view class="section-title">生活分类</view>
@@ -23,6 +23,15 @@
     <view wx:elif="{{!latest.length}}" class="muted">暂无招聘信息</view>
     <view class="item" wx:for="{{latest}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
       <view class="item-title">{{item.title}}</view><view class="muted">{{item.subtitle}}</view>
+    </view>
+  </view>
+  <view class="card" wx:if="{{othersLoading}}"><view class="muted">正在同步其他生活信息...</view></view>
+  <view class="card" wx:for="{{otherSections}}" wx:for-item="section" wx:key="key">
+    <view class="row"><view class="section-title">最新{{section.label}}</view><view class="muted" data-key="{{section.key}}" bindtap="openChannel">更多 ›</view></view>
+    <view wx:if="{{section.error}}" class="muted">暂时无法读取：{{section.error}}</view>
+    <view wx:elif="{{!section.items.length}}" class="muted">暂无信息</view>
+    <view class="item" wx:for="{{section.items}}" wx:for-item="post" wx:for-index="postIndex" wx:key="id" data-key="{{section.key}}" data-index="{{postIndex}}" bindtap="openOtherDetail">
+      <view class="item-title">{{post.title}}</view><view class="muted">{{post.subtitle}}</view>
     </view>
   </view>
   <view class="muted footer">信息来源：OpenAA 主站 · 使用前请核实发布内容</view>
