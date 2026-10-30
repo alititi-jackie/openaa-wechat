@@ -1,5 +1,5 @@
 const { CHANNELS } = require('../../config');
-const { fetchChannel } = require('../../utils/api');
+const { fetchChannelPage } = require('../../utils/api');
 Page({
   data: { channels: CHANNELS, active: 'jobs', items: [], page: 1, loading: false, finished: false, error: '' },
   onShow() {
@@ -21,9 +21,9 @@ Page({
     const channel = this.data.active;
     const page = this.data.page;
     this.setData({ loading: true, error: '' });
-    return fetchChannel(channel, page).then(rows => {
+    return fetchChannelPage(channel, page).then(result => {
       if (generation !== (this._generation || 0)) return;
-      this.setData({ items: this.data.items.concat(rows), page: page + 1, finished: rows.length < 10, loading: false });
+      this.setData({ items: this.data.items.concat(result.items), page: page + 1, finished: !result.hasNext, loading: false });
     }).catch(err => {
       if (generation !== (this._generation || 0)) return;
       this.setData({ loading: false, error: err.message });
