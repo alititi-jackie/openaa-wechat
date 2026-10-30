@@ -13,7 +13,7 @@ function page(name) {
 }
 const pending = [];
 global.wx = { request: options => pending.push(options), stopPullDownRefresh() {}, getStorageSync() {}, removeStorageSync() {} };
-function success(request, title) { request.success({ statusCode: 200, data: [{ id: title, title }] }); }
+function success(request, title) { request.success({ statusCode: 200, data: {state:'ready',data:[{ id: title, title }], pagination:{page:1,pageSize:10,total:1,pageCount:1,hasNext:false,hasPrevious:false}} }); }
 (async () => {
   let count = 0;
   const check = async (name, run) => { await run(); console.log('PASS ' + name); count++; };
@@ -41,11 +41,11 @@ function success(request, title) { request.success({ statusCode: 200, data: [{ i
   });
   await check('invalid response shapes reject instead of appearing empty', async () => {
     const { fetchChannel } = require('../utils/api');
-    for (const data of [null, '<html>error</html>', {error:'failure'}, [null]]) {
+    for (const data of [null, '<html>error</html>', {error:'failure'}, {state:'ready',data:[null],pagination:{hasNext:false}}]) {
       const task = fetchChannel('jobs'); const rejected = assert.rejects(task, /数据格式异常/);
       pending.shift().success({statusCode:200, data}); await rejected;
     }
-    const task = fetchChannel('jobs'); pending.shift().success({statusCode:200,data:{items:[]}});
+    const task = fetchChannel('jobs'); pending.shift().success({statusCode:200,data:{state:'ready',data:[],pagination:{page:1,pageSize:10,total:0,pageCount:1,hasNext:false,hasPrevious:false}}});
     assert.deepEqual(await task, []);
   });
   await check('home refresh ignores stale error', async () => {
@@ -61,3 +61,4 @@ function success(request, title) { request.success({ statusCode: 200, data: [{ i
   });
   console.log(`${count} regression checks passed; wx mocked.`);
 })().catch(error => { console.error(error); process.exitCode = 1; });
+
