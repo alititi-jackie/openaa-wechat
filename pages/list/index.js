@@ -1,5 +1,5 @@
 const { CHANNELS } = require('../../config');
-const { fetchChannelPage } = require('../../utils/api');
+const { fetchChannelPage, detailPath } = require('../../utils/api');
 Page({
   data: { channels: CHANNELS, active: 'jobs', items: [], page: 1, loading: false, finished: false, error: '' },
   onShow() {
@@ -37,8 +37,8 @@ Page({
   openDetail(e) {
     const item = this.data.items[e.currentTarget.dataset.index];
     if (!item) return;
-    wx.setStorageSync('openaa_detail', item);
-    wx.navigateTo({ url: '/pages/detail/index' });
+    const url = detailPath(item);
+    if (url) wx.navigateTo({ url });
   },
   onShareAppMessage() { return { title: 'OpenAA 生活分类', path: '/pages/list/index' }; }
 });
