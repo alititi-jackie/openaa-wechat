@@ -1,3 +1,15 @@
-<view class="container"><view class="card"><view class="title">华人导航</view><view class="muted">常用网站与生活服务快速入口</view></view>
-<view class="card"><view class="section-title">导航分类</view><view class="item" wx:for="{{categories}}" wx:key="*this">{{item}}</view></view>
-<view class="card muted">当前为结构预览。后续同步主站导航数据，并处理微信对外部网址的打开限制。</view></view>
+<view class="container">
+  <view class="card"><view class="title">华人导航</view><view class="muted">精选网址来自 OpenAA 主站。点击可复制网址，在浏览器打开。</view></view>
+  <scroll-view scroll-x class="nav-categories">
+    <view class="nav-pill {{active===item.slug?'chosen':''}}" wx:for="{{categories}}" wx:key="slug" data-slug="{{item.slug}}" bindtap="chooseCategory">{{item.name}}</view>
+  </scroll-view>
+  <view class="card">
+    <view wx:if="{{loading}}" class="muted">正在加载导航...</view>
+    <view wx:elif="{{error}}" class="muted">{{error}} <text bindtap="loadNavigation">点击重试</text></view>
+    <view wx:elif="{{!visible.length}}" class="muted">当前分类暂无网址</view>
+    <view class="item" wx:for="{{visible}}" wx:key="id" data-index="{{index}}" bindtap="copyLink">
+      <view class="item-title">{{item.title}} <text class="nav-action">复制网址 ›</text></view>
+      <view class="muted">{{item.description}}</view>
+    </view>
+  </view>
+</view>
