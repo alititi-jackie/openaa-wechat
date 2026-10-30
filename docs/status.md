@@ -33,3 +33,11 @@
 
 ## 交接要求
 每个新 AI 接手必须先查看 main、开放 PR 和提交历史；汇报已核实事实与下一步，不得以本文件替代实际代码检查。每次任务完成更新此文件、提供提交 SHA、测试证据和真实未完成事项。
+
+## 2026-10-30 第二批 API 契约修正
+- 从主站 `app/api/posts/route.ts`、`features/posts/filters.ts`、`features/posts/types.ts` 核实：四频道共享 `GET /api/posts?type=job|housing|marketplace|service&page=N&pageSize=10`，响应为 `{state,data,pagination}`，以 `pagination.hasNext` 判断分页。
+- 修正微信列表请求路径与参数、客户端字段映射，去掉原始 DTO 全量缓存；保持旧请求隔离逻辑。
+- 本地 `node tests/api-contract.cjs` 与 `node tests/regression.cjs` 通过（模拟 wx）。
+- 真实联网测试返回代理生成的 `Site Unavailable` HTML（虽然 HTTP 200），**未能确认生产 API 真实响应**。未做微信编译、真机、详情 API 冷启动或正式发布。主站服务端查询代码按 `published`、`public`、默认城市及未过期条件过滤；未做实时数据安全审计。
+- 下一步：核实详情真实服务端入口（当前公开 `/api/posts/[id]` 目录只有 `contact` 子路径），实现公开详情 API 与冷启动分享；在微信开发者工具内确认请求合法域名。
+
