@@ -10,7 +10,7 @@ const response = (items, hasNext = false) => ({ state: 'ready', data: items, pag
     const task = fetchChannelPage(key, 2);
     const request = requests.shift();
     assert.equal(request.url, 'https://openaa.com/api/posts');
-    assert.deepEqual(request.data, { type, page: 2, pageSize: 10 });
+    assert.deepEqual(request.data, { type, page: 2, pageSize: 10, view:'list', sort:'latest' });
     request.success({ statusCode: 200, data: response([{ id: 'abc', type, title: '标题', meta: '纽约', description: '正文' }], true) });
     const result = await task;
     assert.equal(result.items[0].subtitle, '纽约');
@@ -27,5 +27,10 @@ const response = (items, hasNext = false) => ({ state: 'ready', data: items, pag
     await rejected;
   }
   assert.equal(requests.length, 0);
+  const filtered = fetchChannelPage('housing', 1, {q:'房屋',area:'Brooklyn',min:'500',max:'1000',sort:'price_asc'});
+  const req = requests.shift();
+  assert.deepEqual(req.data, {type:'housing',page:1,pageSize:10,view:'list',q:'房屋',area:'Brooklyn',min:500,max:1000,sort:'price_asc'});
+  req.success({statusCode:200,data:response([])});
+  await filtered;
   console.log('PASS API contract: 4 channels, pagination, clean DTO, empty and malformed payloads');
 })().catch(error => { console.error(error); process.exitCode = 1; });
