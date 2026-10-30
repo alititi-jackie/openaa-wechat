@@ -18,8 +18,8 @@
   </view>
   <view class="card">
     <view class="section-title">需要发布信息？</view>
-    <view class="muted">发布、编辑或管理信息请前往 OpenAA.com 网页版。</view>
-    <button type="primary" style="margin-top:20rpx" bindtap="promptWebPublish">前往网页版发布</button>
+    <view class="web-publish-note">发布、编辑或管理信息请前往 OpenAA.com 网页版。</view>
+    <button class="primary-cta" bindtap="promptWebPublish">前往网页版发布</button>
   </view>
   <view class="card">
     <view class="row"><view class="section-title">最新招聘</view><view class="muted" data-key="jobs" bindtap="openChannel">更多 ›</view></view>
@@ -27,7 +27,10 @@
     <view wx:elif="{{error}}" class="muted">暂时无法读取招聘信息：{{error}} <text bindtap="loadLatest">点击重试</text></view>
     <view wx:elif="{{!latest.length}}" class="muted">暂无招聘信息</view>
     <view class="item" wx:for="{{latest}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
-      <view class="item-title">{{item.title}}</view><view class="muted">{{item.subtitle}}</view>
+      <view class="post-card-row"><view class="post-card-content">
+        <view class="item-title">{{item.title}}</view><view class="muted post-meta">{{item.subtitle}}</view>
+        <view wx:if="{{item.priceDisplay}}" class="post-price">{{item.priceDisplay}}</view>
+      </view><image wx:if="{{item.imageUrl}}" class="post-thumb" src="{{item.imageUrl}}" mode="aspectFill" /></view>
     </view>
   </view>
   <view class="card" wx:if="{{othersLoading}}"><view class="muted">正在同步其他生活信息...</view></view>
@@ -36,7 +39,10 @@
     <view wx:if="{{section.error}}" class="muted">暂时无法读取：{{section.error}}</view>
     <view wx:elif="{{!section.items.length}}" class="muted">暂无信息</view>
     <view class="item" wx:for="{{section.items}}" wx:for-item="post" wx:for-index="postIndex" wx:key="id" data-key="{{section.key}}" data-index="{{postIndex}}" bindtap="openOtherDetail">
-      <view class="item-title">{{post.title}}</view><view class="muted">{{post.subtitle}}</view>
+      <view class="post-card-row"><view class="post-card-content">
+        <view class="item-title">{{post.title}}</view><view class="muted post-meta">{{post.subtitle}}</view>
+        <view wx:if="{{post.priceDisplay}}" class="post-price">{{post.priceDisplay}}</view>
+      </view><image wx:if="{{post.imageUrl}}" class="post-thumb" src="{{post.imageUrl}}" mode="aspectFill" /></view>
     </view>
   </view>
   <view class="muted footer">信息来源：OpenAA 主站 · 使用前请核实发布内容</view>
