@@ -46,4 +46,39 @@ function fetchChannel(key, page = 1) {
   return fetchChannelPage(key, page).then(result => result.items);
 }
 
-module.exports = { fetchChannel, fetchChannelPage, POST_TYPES };
+const PUBLIC_TYPES = ['job', 'housing', 'marketplace', 'service'];
+function detailPath(item) {
+  if (!item || !item.id || !PUBLIC_TYPES.includes(item.type)) return '';
+  return `/pages/detail/index?id=${encodeURIComponent(item.id)}&type=${encodeURIComponent(item.type)}`;
+}
+
+function fetchPostDetail(id, type) {
+  if (typeof id !== 'string' || !/^[0-9a-f-]{36}$/i.test(id) || !PUBLIC_TYPES.includes(type)) {
+    return Promise.reject(new Error('帖子链接无效'));
+  }
+  return new Promise((resolve, reject) => wx.request({
+    url: `${API_BASE}/api/posts/detail`,
+    data: { id, type },
+    timeout: 10000,
+    success(response) {
+      if (response.statusCode === 404) return reject(new Error('此信息已下架或不存在'));
+      if (response.statusCode < 200 || response.statusCode >= 300) return reject(new Error('详情暂时无法加载，请稍后再试'));
+      const body = response.data;
+      if (!body || body.state !== 'ready' || !body.data || body.data.id !== id || body.data.type !== type) {
+        return reject(new Error('详情数据格式异常'));
+      }
+      const post = body.data;
+      resolve({
+        id, type, title: String(post.title || '未命名信息'),
+        subtitle: String(post.meta || post.location || post.area || ''),
+        description: String(post.body || post.description || ''),
+        priceDisplay: String(post.priceDisplay || ''),
+        images: Array.isArray(post.images) ? post.images.filter(x => x && typeof x.url === 'string' && x.url.startsWith('https://')).map(x => ({url:x.url,caption:x.caption||''})) : [],
+        fields: Array.isArray(post.detailMetaFields) ? post.detailMetaFields.filter(x => x && x.label && x.value).map(x => ({label:String(x.label),value:String(x.value)})) : []
+      });
+    },
+    fail(error) { reject(new Error(error.errMsg || '网络请求失败')); }
+  }));
+}
+
+module.exports = { fetchChannel, fetchChannelPage, fetchPostDetail, detailPath, POST_TYPES };
