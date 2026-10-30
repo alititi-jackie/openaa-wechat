@@ -1,0 +1,11 @@
+<view class="container">
+ <view class="study-head"><view class="row"><view class="title">{{title}}</view><view class="muted">{{completed ? total : index+1}} / {{total}}</view></view><view class="progress"><view class="progress-fill" style="width:{{total ? (completed ? 100 : (index+1)*100/total) : 0}}%"></view></view></view>
+ <view wx:if="{{completed}}" class="card result"><view class="result-emoji">🎉</view><view class="title">练习完成</view><view class="score">答对 {{correct}} / {{total}} 题</view><button class="btn" bindtap="back">返回题库</button></view>
+ <view wx:elif="{{!current}}" class="card result"><view class="title">暂无题目</view><view class="muted">当前模式没有可练习的题目，请返回题库。</view><button class="btn" bindtap="back">返回题库</button></view>
+ <view wx:else class="card question-card">
+  <view class="question-number">第 {{index+1}} 题</view><view class="question-text">{{current.question}}</view><image wx:if="{{current.image}}" class="sign-image" src="{{current.image}}" mode="aspectFit" />
+  <view wx:for="{{current.options}}" wx:key="index" class="choice {{revealed && index===current.answerIndex?'choice-correct':''}} {{revealed && index===selected && index!==current.answerIndex?'choice-wrong':''}}" data-index="{{index}}" bindtap="select"><view class="choice-letter">{{index+1}}</view><view class="choice-text">{{item}}</view></view>
+  <view wx:if="{{revealed}}" class="answer"><view class="answer-title">{{selected===current.answerIndex?'✅ 回答正确':'❌ 回答错误'}}</view><view>正确答案：{{current.options[current.answerIndex]}}</view><view wx:if="{{current.explanation}}" class="explanation">解析：{{current.explanation}}</view></view>
+  <button class="btn next" disabled="{{!revealed}}" bindtap="next">{{index+1===total?'查看结果':'下一题'}}</button>
+ </view><view class="muted small-print">独立学习平台，非 DMV 官方题库。</view>
+</view>
