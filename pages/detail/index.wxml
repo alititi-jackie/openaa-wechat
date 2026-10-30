@@ -2,7 +2,7 @@
   <view class="card" wx:if="{{item}}">
     <view class="title">{{item.title}}</view>
     <view class="muted" style="margin-top:20rpx">{{item.subtitle}}</view>
-    <view style="margin-top:24rpx;line-height:1.8;white-space:pre-wrap">{{item.raw.description || item.raw.content || '更多详情将在接口字段核对后接入。'}}</view>
+    <view style="margin-top:24rpx;line-height:1.8;white-space:pre-wrap">{{item.description || '完整详情正在接入主站接口，暂请通过 OpenAA 网站查看。'}}</view>
   </view>
   <view class="card muted" wx:else>详情暂不可用，请返回信息列表。</view>
   <view class="muted">安全提示：联系陌生人前请核实信息，切勿提前转账。</view>
