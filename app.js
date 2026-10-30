@@ -1,3 +1,3 @@
 App({
-  globalData: { name: 'OpenAA 美国华人生活平台' }
+  globalData: { name: 'OpenAA 美国驾考', state: 'NY' }
 })
