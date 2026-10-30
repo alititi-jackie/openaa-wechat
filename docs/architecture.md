@@ -38,3 +38,10 @@
 - 真实 WXML/WXSS、微信基础库、iOS/Android 与真机分享需通过微信开发者工具/真机验证。
 - GitHub 合并 ≠ 自动微信发布；记录版本 SHA、微信上传版本号、审核状态。
 - 开发预览与正式上线隔离；当前阶段不处理备案，但上线前必须核实主体、类目、隐私、备案和审核要求。
+
+## 已核实内容接口（2026-10-30）
+- `GET /api/mini/news`：新闻类别与最多 50 篇已发布文章；可加 `category=<slug>`。
+- `GET /api/mini/news?slug=<slug>`：公开新闻详情；404 代表不存在或已下架。微信分享使用 `/pages/news-detail/index?slug=...` 冷启动请求。
+- `GET /api/mini/navigation`：公开启用类别与链接。小程序不执行任意外链跳转，现阶段提供复制网址。
+- 主站代码路径 `app/api/mini/news/route.ts` 与 `app/api/mini/navigation/route.ts`；均不返回后台审核、个人导航或原始 metadata。
+- 小程序使用 `utils/api.js` 中的 `fetchNews`、`fetchNewsDetail`、`fetchNavigation` 适配响应；线上请求/微信域名/真机尚待验证。
