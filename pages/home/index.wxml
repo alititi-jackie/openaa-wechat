@@ -7,10 +7,14 @@
   <view class="card">
     <view class="section-title">生活分类</view>
     <view class="grid">
-      <view class="entry" wx:for="{{channels}}" wx:key="key" data-key="{{item.key}}" bindtap="openChannel">
+      <view class="entry" wx:for="{{quickLinks}}" wx:key="key" data-key="{{item.key}}" data-type="{{item.type}}" bindtap="openShortcut">
         <view class="emoji">{{item.emoji}}</view><view>{{item.label}}</view>
       </view>
     </view>
+  </view>
+  <view class="card">
+    <view class="section-title">在美国生活 · 从 OpenAA 开始</view>
+    <view class="muted">寻找工作、房屋及本地服务，浏览生活资讯与驾考内容。小程序和 OpenAA 主站将共用信息数据。</view>
   </view>
   <view class="card">
     <view class="row"><view class="section-title">最新招聘</view><view class="muted" data-key="jobs" bindtap="openChannel">更多 ›</view></view>

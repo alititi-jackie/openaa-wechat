@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="card profile-head">
+    <view class="avatar">AA</view>
+    <view class="profile-name">欢迎来到 OpenAA</view>
+    <view class="muted">微信账号关联功能正在开发</view>
+    <button class="login-btn" bindtap="showPending">微信登录 · 即将开放</button>
+  </view>
+  <view class="card">
+    <view class="item" wx:for="{{sections}}" wx:key="title" bindtap="showPending">
+      <view class="row"><view><view class="item-title">{{item.title}}</view><view class="muted">{{item.desc}}</view></view><view class="muted">›</view></view>
+    </view>
+  </view>
+</view>

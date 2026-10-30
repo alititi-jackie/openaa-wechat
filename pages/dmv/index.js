@@ -1,0 +1,1 @@
+Page({data:{entries:[{title:'查看题库',desc:'按章节学习纽约 DMV 理论题'},{title:'练习模式',desc:'逐题练习，强化记忆'},{title:'模拟考试',desc:'模拟正式笔试流程'},{title:'交通标志',desc:'认识道路交通标志'},{title:'错题练习',desc:'集中复习答错的题目'}]},pending(){wx.showToast({title:'题库接入中',icon:'none'});}});

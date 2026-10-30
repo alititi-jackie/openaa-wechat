@@ -1,0 +1,2 @@
+.publish-head { background:#123f86;color:white;padding:42rpx 30rpx; }
+.hint {font-size:25rpx;opacity:.85;margin-top:12rpx;}

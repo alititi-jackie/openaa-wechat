@@ -1,0 +1,4 @@
+.profile-head{text-align:center;padding-top:45rpx;padding-bottom:35rpx;}
+.avatar{background:#123f86;color:white;border-radius:50%;width:112rpx;height:112rpx;line-height:112rpx;font-weight:800;font-size:36rpx;margin:0 auto 16rpx;}
+.profile-name{font-weight:700;font-size:34rpx;margin-bottom:8rpx;}
+.login-btn{border:1rpx solid #c8d7ef;background:#edf5ff;color:#1565c0;font-size:25rpx;margin-top:25rpx;}

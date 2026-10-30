@@ -1,7 +1,7 @@
-const { CHANNELS } = require('../../config');
+const { CHANNELS, QUICK_LINKS } = require('../../config');
 const { fetchChannel } = require('../../utils/api');
 Page({
-  data: { channels: CHANNELS, latest: [], loading: true, error: '' },
+  data: { channels: CHANNELS, quickLinks: QUICK_LINKS, latest: [], loading: true, error: '' },
   onLoad() { this.loadLatest(); },
   onPullDownRefresh() { this.loadLatest().finally(() => wx.stopPullDownRefresh()); },
   loadLatest() {
@@ -19,6 +19,12 @@ Page({
     const key = e.currentTarget.dataset.key;
     wx.setStorageSync('openaa_channel', key);
     wx.switchTab({ url: '/pages/list/index' });
+  },
+  openShortcut(e) {
+    const { key, type } = e.currentTarget.dataset;
+    if (type === 'channel') return this.openChannel({ currentTarget: { dataset: {key} } });
+    if (type === 'tab') return wx.switchTab({url:'/pages/publish/index'});
+    if (['news','navigation','dmv'].includes(key)) wx.navigateTo({url:`/pages/${key}/index`});
   },
   openDetail(e) {
     const item = this.data.latest[e.currentTarget.dataset.index];

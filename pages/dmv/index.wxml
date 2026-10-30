@@ -1,0 +1,3 @@
+<view class="container"><view class="card dmv-head"><view class="title">纽约 DMV 驾考学习</view><view class="dmv-sub">题库 · 练习 · 模拟考试</view></view>
+<view class="card"><view class="item" wx:for="{{entries}}" wx:key="title" bindtap="pending"><view class="row"><view><view class="item-title">{{item.title}}</view><view class="muted">{{item.desc}}</view></view><view class="muted">›</view></view></view></view>
+<view class="muted">当前为功能入口预览，尚未同步主站 DMV 题库和考试状态。</view></view>

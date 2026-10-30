@@ -2,7 +2,7 @@
 .brand { font-size: 56rpx; font-weight: 800; letter-spacing: -2rpx; }
 .hero-title { font-size: 38rpx; font-weight: 700; margin-top: 10rpx; }
 .hero-sub { opacity: .86; margin-top: 14rpx; font-size: 25rpx; }
-.grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24rpx 8rpx; }
-.entry { text-align: center; font-size: 23rpx; }
+.grid { display: flex; flex-wrap: wrap; gap: 24rpx 0; }
+.entry { text-align: center; width: 25%; font-size: 23rpx; }
 .emoji { font-size: 48rpx; margin-bottom: 10rpx; }
 .footer { text-align: center; padding-bottom: 24rpx; }

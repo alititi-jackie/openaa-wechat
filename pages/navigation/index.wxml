@@ -1,0 +1,3 @@
+<view class="container"><view class="card"><view class="title">华人导航</view><view class="muted">常用网站与生活服务快速入口</view></view>
+<view class="card"><view class="section-title">导航分类</view><view class="item" wx:for="{{categories}}" wx:key="*this">{{item}}</view></view>
+<view class="card muted">当前为结构预览。后续同步主站导航数据，并处理微信对外部网址的打开限制。</view></view>

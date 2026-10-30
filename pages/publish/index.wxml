@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="card publish-head">
+    <view class="title">发布生活信息</view>
+    <view class="hint">让更多在美华人看到你的信息</view>
+  </view>
+  <view class="card">
+    <view class="section-title">选择发布类别</view>
+    <view class="item" wx:for="{{channels}}" wx:key="key" data-key="{{item.key}}" bindtap="choose">
+      <view class="row"><view class="item-title">{{item.emoji}}  发布{{item.label}}</view><view class="muted">›</view></view>
+    </view>
+  </view>
+  <view class="muted">预览阶段：发布、编辑和图片上传尚未接入账号系统，不会写入生产数据库。</view>
+</view>
