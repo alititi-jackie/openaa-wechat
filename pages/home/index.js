@@ -1,5 +1,5 @@
 const { CHANNELS, QUICK_LINKS } = require('../../config');
-const { fetchChannel } = require('../../utils/api');
+const { fetchChannel, detailPath } = require('../../utils/api');
 Page({
   data: { channels: CHANNELS, quickLinks: QUICK_LINKS, latest: [], loading: true, error: '' },
   onLoad() { this.loadLatest(); },
@@ -29,8 +29,8 @@ Page({
   openDetail(e) {
     const item = this.data.latest[e.currentTarget.dataset.index];
     if (!item) return;
-    wx.setStorageSync('openaa_detail', item);
-    wx.navigateTo({ url: '/pages/detail/index' });
+    const url = detailPath(item);
+    if (url) wx.navigateTo({ url });
   },
   onShareAppMessage() { return { title: 'OpenAA 美国华人生活平台', path: '/pages/home/index' }; }
 });
