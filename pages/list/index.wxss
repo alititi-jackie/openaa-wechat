@@ -2,3 +2,11 @@
 .pill { display: inline-block; flex-shrink: 0; background: white; padding: 16rpx 24rpx; border-radius: 30rpx; margin-right: 12rpx; font-size: 25rpx; }
 .active { background: #1565c0; color: white; }
 .status { text-align: center; padding: 22rpx 0; }
+.filter-card { margin-bottom: 22rpx; }
+.filter-row { display: flex; align-items: center; gap: 12rpx; }
+.filter-input { flex: 1; min-width: 0; border: 1rpx solid #e3e8ee; border-radius: 12rpx; padding: 14rpx; font-size: 27rpx; background: #fff; }
+.filter-button { flex-shrink: 0; }
+.filter-toggle { flex-shrink: 0; color: #1565c0; font-size: 24rpx; }
+.filter-extra { display: flex; flex-direction: column; gap: 18rpx; padding-top: 22rpx; }
+.sort-choice { padding: 18rpx; border-radius: 12rpx; background: #f4f7fb; font-size: 27rpx; }
+.filter-actions { justify-content: flex-end; }
