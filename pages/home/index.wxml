@@ -15,8 +15,8 @@
   <view class="card">
     <view class="row"><view class="section-title">最新招聘</view><view class="muted" data-key="jobs" bindtap="openChannel">更多 ›</view></view>
     <view wx:if="{{loading}}" class="muted">正在加载...</view>
-    <view wx:elif="{{error}}" class="muted">暂时无法读取招聘信息：{{error}}</view>
-    <view wx:elif="{{!latest.length}}" class="muted">暂无招聘信息，或接口字段需要适配</view>
+    <view wx:elif="{{error}}" class="muted">暂时无法读取招聘信息：{{error}} <text bindtap="loadLatest">点击重试</text></view>
+    <view wx:elif="{{!latest.length}}" class="muted">暂无招聘信息</view>
     <view class="item" wx:for="{{latest}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
       <view class="item-title">{{item.title}}</view><view class="muted">{{item.subtitle}}</view>
     </view>
