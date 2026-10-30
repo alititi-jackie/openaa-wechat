@@ -41,3 +41,9 @@
 - 真实联网测试返回代理生成的 `Site Unavailable` HTML（虽然 HTTP 200），**未能确认生产 API 真实响应**。未做微信编译、真机、详情 API 冷启动或正式发布。主站服务端查询代码按 `published`、`public`、默认城市及未过期条件过滤；未做实时数据安全审计。
 - 下一步：核实详情真实服务端入口（当前公开 `/api/posts/[id]` 目录只有 `contact` 子路径），实现公开详情 API 与冷启动分享；在微信开发者工具内确认请求合法域名。
 
+## 2026-10-30 第三批：公开详情与微信分享
+- 主站新增 `GET /api/posts/detail?id=<uuid>&type=...`（提交 `7b67207`），复用公开查询函数，返回精简安全 DTO，不返回 `sourceRecord`、`contact`；未发布、非公开或已过期内容返回 404。
+- 小程序详情从 URL `id + type` 冷启动读取，支持公开字段、正文、图片预览、下架提示、失败重试、下拉刷新及帖子定向分享；列表和首页不再依赖 `openaa_detail` 本地缓存。
+- 本地运行 `node tests/api-contract.cjs`、`node tests/regression.cjs`、`node tests/detail-contract.cjs` 通过（模拟 `wx`）；尚未通过微信开发者工具编译、真实 API、真机分享和微信后台域名核验。
+- 后续：部署后验证生产接口响应、检查详情数据安全边界与微信显示，再推进首页、新闻、导航、DMV 和登录/发布。
+
