@@ -1,3 +1,16 @@
-<view class="container"><view class="card"><view class="title">新闻资讯</view><view class="muted">美国华人关心的资讯和实用指南</view></view>
-<view class="card"><view class="section-title">内容分类</view><view class="item" wx:for="{{categories}}" wx:key="*this">{{item}}</view></view>
-<view class="card muted">当前为界面预览。后续将接入 OpenAA 新闻 API，展示真实文章及详情。</view></view>
+<view class="container">
+  <view class="card"><view class="title">新闻资讯</view><view class="muted">美国华人关心的资讯和实用指南</view></view>
+  <scroll-view scroll-x class="news-categories">
+    <view class="news-pill {{active===item.slug?'chosen':''}}" wx:for="{{categories}}" wx:key="slug" data-slug="{{item.slug}}" bindtap="chooseCategory">{{item.name}}</view>
+  </scroll-view>
+  <view class="card">
+    <view wx:if="{{loading}}" class="muted">正在加载新闻...</view>
+    <view wx:elif="{{error}}" class="muted">{{error}} <text bindtap="loadNews">点击重试</text></view>
+    <view wx:elif="{{!posts.length}}" class="muted">当前分类暂无文章</view>
+    <view class="item" wx:for="{{posts}}" wx:key="slug" data-index="{{index}}" bindtap="openArticle">
+      <view class="item-title">{{item.isPinned?'[置顶] ':''}}{{item.title}}</view>
+      <view class="muted">{{item.categoryName}} · {{item.publishedAt}}</view>
+      <view class="muted">{{item.excerpt}}</view>
+    </view>
+  </view>
+</view>
