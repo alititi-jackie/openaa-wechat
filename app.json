@@ -1,7 +1,7 @@
 {
-  "pages": ["pages/home/index", "pages/list/index", "pages/news/index", "pages/news-detail/index", "pages/detail/index"],
+  "pages": ["pages/home/index", "pages/dmv/index", "pages/study/index"],
   "window": {
-    "navigationBarTitleText": "OpenAA 美国华人生活平台",
+    "navigationBarTitleText": "OpenAA 美国驾考",
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#f5f7fb"
@@ -12,7 +12,7 @@
     "backgroundColor": "#ffffff",
     "list": [
       {"pagePath": "pages/home/index", "text": "首页"},
-      {"pagePath": "pages/list/index", "text": "分类"}
+      {"pagePath": "pages/dmv/index", "text": "纽约题库"}
     ]
   },
   "style": "v2",
