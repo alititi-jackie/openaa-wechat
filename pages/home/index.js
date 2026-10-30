@@ -1,5 +1,6 @@
 const { CHANNELS, QUICK_LINKS } = require('../../config');
 const { fetchChannel, detailPath } = require('../../utils/api');
+const { promptWebPublish } = require('../../utils/web-publish');
 Page({
   data: { channels: CHANNELS, quickLinks: QUICK_LINKS, latest: [], loading: true, error: '',
     otherSections: [], othersLoading: false },
@@ -35,9 +36,9 @@ Page({
   openShortcut(e) {
     const { key, type } = e.currentTarget.dataset;
     if (type === 'channel') return this.openChannel({ currentTarget: { dataset: {key} } });
-    if (type === 'tab') return wx.switchTab({url:'/pages/publish/index'});
-    if (['news','navigation','dmv'].includes(key)) wx.navigateTo({url:`/pages/${key}/index`});
+    if (key === 'news' && type === 'page') wx.navigateTo({url:'/pages/news/index'});
   },
+  promptWebPublish,
   openDetail(e) {
     const item = this.data.latest[e.currentTarget.dataset.index];
     if (!item) return;
