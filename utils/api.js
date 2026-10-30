@@ -101,4 +101,43 @@ function fetchPostDetail(id, type) {
   }));
 }
 
-module.exports = { fetchChannel, fetchChannelPage, fetchPostDetail, detailPath, normalizeFilters, POST_TYPES };
+function fetchMiniPublic(path, params = {}) {
+  return new Promise((resolve, reject) => wx.request({
+    url: `${API_BASE}/api/mini/${path}`, data: params, timeout: 10000,
+    success(response) {
+      if (response.statusCode === 404) return reject(new Error('内容不存在或已下架'));
+      if (response.statusCode < 200 || response.statusCode >= 300) return reject(new Error('信息暂时无法读取'));
+      const body = response.data;
+      if (!body || body.state !== 'ready' || !body.data || typeof body.data !== 'object') return reject(new Error('服务器数据格式异常'));
+      resolve(body.data);
+    },
+    fail(error) { reject(new Error(error.errMsg || '网络请求失败')); }
+  }));
+}
+
+function fetchNews(category = '') {
+  return fetchMiniPublic('news', category ? {category} : {}).then(data => {
+    if (!Array.isArray(data.categories) || !Array.isArray(data.posts)) throw new Error('新闻数据格式异常');
+    return { categories: data.categories.map(c => ({slug:String(c.slug||''),name:String(c.name||'')})),
+      posts: data.posts.filter(p=>p&&p.slug&&p.title).map(p=>({slug:String(p.slug),title:String(p.title),excerpt:String(p.excerpt||''),categoryName:String(p.categoryName||''),isPinned:!!p.isPinned,publishedAt:p.publishedAt||''})) };
+  });
+}
+
+function fetchNewsDetail(slug) {
+  if (!/^[a-z0-9][a-z0-9_-]{0,119}$/i.test(slug||'')) return Promise.reject(new Error('新闻链接无效'));
+  return fetchMiniPublic('news',{slug}).then(p=>{
+    if (p.slug!==slug || !p.title) throw new Error('新闻详情数据格式异常');
+    return {slug,title:String(p.title),body:String(p.body||''),excerpt:String(p.excerpt||''),categoryName:String(p.categoryName||''),publishedAt:p.publishedAt||'',coverImageUrl:p.coverImageUrl||''};
+  });
+}
+
+function fetchNavigation() {
+  return fetchMiniPublic('navigation').then(data=>{
+    if (!Array.isArray(data.categories)||!Array.isArray(data.links)) throw new Error('导航数据格式异常');
+    return {categories:data.categories.map(c=>({slug:String(c.slug||''),name:String(c.name||'')})),
+      links:data.links.filter(link=>link&&link.id&&link.title&&link.url).map(link=>({id:String(link.id),title:String(link.title),description:String(link.description||''),url:String(link.url),categorySlug:String(link.categorySlug||'')}))};
+  });
+}
+
+module.exports = { fetchChannel, fetchChannelPage, fetchPostDetail, detailPath, normalizeFilters, POST_TYPES,
+  fetchNews, fetchNewsDetail, fetchNavigation };
