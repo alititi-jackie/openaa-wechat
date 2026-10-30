@@ -1,5 +1,6 @@
 const { CHANNELS } = require('../../config');
 const { fetchChannelPage, detailPath } = require('../../utils/api');
+const { promptWebPublish } = require('../../utils/web-publish');
 Page({
   data: {
     channels: CHANNELS, active: 'jobs', items: [], page: 1, loading: false, finished: false, error: '',
@@ -62,5 +63,6 @@ Page({
     const url = detailPath(item);
     if (url) wx.navigateTo({ url });
   },
+  promptWebPublish,
   onShareAppMessage() { return { title: 'OpenAA 生活分类', path: '/pages/list/index' }; }
 });
