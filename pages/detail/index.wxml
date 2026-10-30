@@ -4,10 +4,10 @@
   <view class="card" wx:if="{{item}}">
     <view class="title">{{item.title}}</view>
     <view class="muted" style="margin-top:20rpx">{{item.subtitle}}</view>
-    <view wx:if="{{item.priceDisplay}}" style="margin-top:16rpx">{{item.priceDisplay}}</view>
+    <view wx:if="{{item.priceDisplay}}" class="post-price">{{item.priceDisplay}}</view>
     <view style="margin-top:24rpx;line-height:1.8;white-space:pre-wrap">{{item.description}}</view>
     <view wx:for="{{item.fields}}" wx:key="label" class="muted" style="margin-top:12rpx">{{item.label}}：{{item.value}}</view>
-    <view wx:for="{{item.images}}" wx:key="url" style="margin-top:16rpx"><image src="{{item.url}}" mode="widthFix" style="width:100%" data-url="{{item.url}}" bindtap="previewImage" /></view>
+    <view wx:for="{{item.images}}" wx:key="url" style="margin-top:16rpx"><image src="{{item.url}}" mode="widthFix" style="width:100%;border-radius:12rpx" data-url="{{item.url}}" bindtap="previewImage" /></view>
   </view>
   <view class="muted">安全提示：联系陌生人前请核实信息，切勿提前转账。</view>
 </view>
