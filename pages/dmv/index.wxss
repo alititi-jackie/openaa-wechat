@@ -1,2 +1,1 @@
-.dmv-head{background:#0e7490;color:#fff;padding:40rpx 30rpx;}
-.dmv-sub{font-size:25rpx;opacity:.85;margin-top:12rpx;}
+.dmv-head{background:linear-gradient(125deg,#1356a0,#09849b);color:#fff;padding:40rpx 30rpx}.dmv-sub{font-size:25rpx;opacity:.9;margin-top:13rpx}.start{margin-bottom:28rpx}.note{line-height:1.6;margin:20rpx 8rpx}
