@@ -2,6 +2,7 @@
   <scroll-view scroll-x class="category-bar" enable-flex>
     <view class="pill {{active===item.key?'active':''}}" wx:for="{{channels}}" wx:key="key" data-key="{{item.key}}" bindtap="choose">{{item.label}}</view>
   </scroll-view>
+  <view class="card"><view class="section-title" style="margin-bottom:0">{{activeLabel}}</view><view class="muted">查看 OpenAA 主站已公开的信息</view></view>
   <view class="card filter-card">
     <view class="filter-row">
       <input class="filter-input" placeholder="搜索职位、房屋或服务关键词" value="{{draft.q}}" bindinput="changeKeyword" confirm-type="search" bindconfirm="applyFilters" />
@@ -25,16 +26,24 @@
   </view>
   <view class="card">
     <view class="item" wx:for="{{items}}" wx:key="id" data-index="{{index}}" bindtap="openDetail">
-      <view class="item-title">{{item.title}}</view><view class="muted">{{item.subtitle}}</view>
+      <view class="post-card-row">
+        <view class="post-card-content">
+          <view class="item-title">{{item.title}}</view>
+          <view class="muted post-meta">{{item.subtitle}}</view>
+          <view wx:if="{{item.priceDisplay}}" class="post-price">{{item.priceDisplay}}</view>
+          <view class="read-more">查看详情 ›</view>
+        </view>
+        <image wx:if="{{item.imageUrl}}" class="post-thumb" mode="aspectFill" src="{{item.imageUrl}}" />
+      </view>
     </view>
     <view wx:if="{{loading}}" class="muted status">加载中...</view>
-    <view wx:if="{{error}}" class="muted status">加载失败：{{error}} <text bindtap="load">点击重试</text></view>
+    <view wx:if="{{error}}" class="muted status">加载失败：{{error}} <text class="retry" bindtap="load">点击重试</text></view>
     <view wx:if="{{!loading && !error && !items.length}}" class="muted status">暂无信息</view>
     <view wx:if="{{finished && items.length}}" class="muted status">已经到底了</view>
   </view>
   <view class="card">
     <view class="section-title">想发布信息？</view>
-    <view class="muted">小程序只提供查看。前往 OpenAA.com 网页版登录后发布。</view>
-    <button type="primary" style="margin-top:16rpx" bindtap="promptWebPublish">复制网页版发布网址</button>
+    <view class="web-publish-note">小程序只提供查看。前往 OpenAA.com 网页版登录后发布。</view>
+    <button class="primary-cta" bindtap="promptWebPublish">前往网页版发布</button>
   </view>
 </view>
